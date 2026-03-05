@@ -3,6 +3,9 @@ using Pokedex.Dominio;
 using Microsoft.Data.SqlClient;
 public class PokemonNegocio
 {
+    // ========================================
+    // MÉTODOS PARA SQL SERVER
+    // ========================================
 
     public List<Pokemon> listar(string id = "")
     {
@@ -233,6 +236,111 @@ public class PokemonNegocio
             datos.Dispose();
         }
     }
+
+    // ========================================
+    // MÉTODOS CON STORED PROCEDURES (SQL SERVER)
+    // ========================================
+
+    public List<Pokemon> listarConSP()
+    {
+        List<Pokemon> lista = new List<Pokemon>();
+        AccesoDatos datos = new AccesoDatos();
+
+        try
+        {
+            datos.setearProcedimiento("storedListar");
+            datos.ejecutarLectura();
+
+            while (datos.Lector.Read())
+            {
+                Pokemon aux = new Pokemon();
+                aux.Id = (int)datos.Lector["Id"];
+                aux.Numero = datos.Lector.GetInt32(0);
+                aux.Nombre = (string)datos.Lector["Nombre"];
+                aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                if (!(datos.Lector["UrlImagen"] is DBNull))
+                    aux.UrlImagen = (string)datos.Lector["UrlImagen"];
+
+                aux.Tipo = new Elemento();
+                aux.Tipo.Id = (int)datos.Lector["IdTipo"];
+                aux.Tipo.Descripcion = (string)datos.Lector["Tipo"];
+                aux.Debilidad = new Elemento();
+                aux.Debilidad.Id = (int)datos.Lector["IdDebilidad"];
+                aux.Debilidad.Descripcion = (string)datos.Lector["Debilidad"];
+
+                aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                lista.Add(aux);
+            }
+
+            return lista;
+        }
+        catch
+        {
+            throw;
+        }
+        finally
+        {
+            datos.Dispose();
+        }
+    }
+
+    public void agregarConSP(Pokemon nuevo)
+    {
+        AccesoDatos datos = new AccesoDatos();
+
+        try
+        {
+            datos.setearProcedimiento("storedAltaPokemon");
+            datos.setearParametro("@numero", nuevo.Numero);
+            datos.setearParametro("@nombre", nuevo.Nombre);
+            datos.setearParametro("@desc", nuevo.Descripcion);
+            datos.setearParametro("@img", nuevo.UrlImagen);
+            datos.setearParametro("@idTipo", nuevo.Tipo.Id);
+            datos.setearParametro("@idDebilidad", nuevo.Debilidad.Id);
+            datos.ejecutarAccion();
+        }
+        catch
+        {
+            throw;
+        }
+        finally
+        {
+            datos.Dispose();
+        }
+    }
+
+    public void modificarConSP(Pokemon poke)
+    {
+        AccesoDatos datos = new AccesoDatos();
+
+        try
+        {
+            datos.setearProcedimiento("storedModificarPokemon");
+            datos.setearParametro("@numero", poke.Numero);
+            datos.setearParametro("@nombre", poke.Nombre);
+            datos.setearParametro("@desc", poke.Descripcion);
+            datos.setearParametro("@img", poke.UrlImagen);
+            datos.setearParametro("@idTipo", poke.Tipo.Id);
+            datos.setearParametro("@idDebilidad", poke.Debilidad.Id);
+            datos.setearParametro("@id", poke.Id);
+
+            datos.ejecutarAccion();
+        }
+        catch
+        {
+            throw;
+        }
+        finally
+        {
+            datos.Dispose();
+        }
+    }
+
+    // ========================================
+    // MÉTODOS PARA SQLITE
+    // ========================================
 
     // CAMBIO SQLITE: versión equivalente de listar para SQLite.
     public List<Pokemon> listarSQLITE(string id = "")
@@ -474,10 +582,5 @@ public class PokemonNegocio
             datos.Dispose();
         }
     }
-
-    // TO DO: Implementar métodos con procedimientos almacenados (SP) para listar, agregar y modificar pokemons, manteniendo la lógica de negocio pero delegando la ejecución de consultas a SP definidos en la base de datos. Esto mejora la seguridad y el rendimiento al evitar concatenación de strings para consultas SQL.
-    // public List<Pokemon> listarConSP()
-    // public void agregarConSP(Pokemon nuevo)
-    // public void modificarConSP(Pokemon poke)
 
 }

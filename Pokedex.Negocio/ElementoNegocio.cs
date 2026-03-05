@@ -3,6 +3,10 @@ using Pokedex.Dominio;
 
 public class ElementoNegocio
 {
+    // ========================================
+    // MÉTODOS PARA SQL SERVER
+    // ========================================
+
     public List<Elemento> listar()
         {
             List<Elemento> lista = new List<Elemento>();
@@ -34,6 +38,10 @@ public class ElementoNegocio
                 datos.Dispose(); // Asegura que se liberen los recursos de conexión incluso si ocurre una excepción.
             }
         }
+
+    // ========================================
+    // MÉTODOS PARA SQLITE
+    // ========================================
 
     // CAMBIO SQLITE: versión equivalente de listar para SQLite.
     public List<Elemento> listarSQLITE()
