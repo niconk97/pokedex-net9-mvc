@@ -120,8 +120,6 @@ cd Pokedex.Web
 dotnet run
 ```
 
-La aplicación estará disponible en `https://localhost:5001` o `http://localhost:5000`
-
 ## 🎯 Uso
 
 Este proyecto implementa una aplicación web completa de gestión de Pokémon con ASP.NET Core MVC. Incluye:

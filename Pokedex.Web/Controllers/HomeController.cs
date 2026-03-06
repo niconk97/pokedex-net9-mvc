@@ -23,6 +23,11 @@ public class HomeController : Controller
         return View();
     }
 
+    public IActionResult Lista()
+    {
+        return View("ListaPokemon");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
