@@ -1,24 +1,23 @@
-# Pokedex .NET 9
+# Pokedex .NET 9 - MVC
 
 ## Descripción
 
-Este proyecto es una **readaptación simplificada** del proyecto Pokedex desarrollado originalmente por **MaxiPrograma**, utilizado en sus cursos:
-- **Curso C# Nivel 2 [.Net + SQL]**
-- **Curso C# Nivel 3 [Web .Net]**
+Este proyecto es una **variante con ASP.NET Core MVC** del proyecto Pokedex .NET 9 que fue desarrollado para adaptar el proyecto originalmente creado por **MaxiPrograma**, utilizado en sus cursos de C# y .NET.
 
-La solución ha sido adaptada para ejecutarse en **Visual Studio Code** con **.NET 9**, manteniendo la funcionalidad core de gestión de Pokémon y simplificando la estructura para facilitar el aprendizaje y desarrollo.
+**Repositorio original**: [pokedex-net9](https://github.com/niconk97/pokedex-net9)
+
+La solución incluye una capa de presentación web con **ASP.NET Core MVC**, manteniendo la arquitectura en capas original y adaptada para ejecutarse en **Visual Studio Code** con **.NET 9**.
 
 ## ⚠️ Aclaraciones Importantes
 
-- **Este repositorio está enfocado para ser utilizado en el nivel 4** del curso de MaxiPrograma.
-- **Algunas características fueron omitidas** porque en el curso de nivel 4 de .NET no se utilizarán o serán readaptadas a la nueva tecnología con MVC.
-- **Algunas cosas pueden ser mejoradas**, ya que aún estoy en proceso de aprendizaje y no soy un experto en .NET.
+- **Esta es la variante con MVC** del proyecto base. Incluye una capa de presentación web completa.
+- **Basada en mi adaptación previa** a .NET 9 del proyecto original de MaxiPrograma.
 - **Para usuarios de Linux/macOS**: Se recomienda utilizar la implementación con **SQLite** (`AccesoDatosSQLITE`) o cualquier base de datos relacional compatible con Linux (como PostgreSQL, MySQL o SQL Server para Linux en Docker). La implementación por defecto usa SQL Server Express que está orientado a Windows.
 
 ## 📁 Estructura del Proyecto
 
 ```
-pokedex-net9/
+pokedex-net9-mvc/
 │
 ├── Pokedex.Dominio/          # Capa de dominio (entidades)
 │   ├── Pokemon.cs            # Clase Pokemon
@@ -34,13 +33,21 @@ pokedex-net9/
 │       ├── POKEDEX_DB.SQL        # Script para SQL Server
 │       └── POKEDEX_DB_SQLITE.sql # Script para SQLite
 │
+├── Pokedex.Web/              # Capa de presentación (ASP.NET Core MVC)
+│   ├── Controllers/          # Controladores MVC
+│   ├── Models/               # View Models
+│   ├── Views/                # Vistas Razor
+│   └── wwwroot/              # Archivos estáticos (CSS, JS, imágenes)
+│
 └── Pokedex.Net9.sln          # Archivo de solución
 ```
 
 ## 🛠️ Tecnologías Utilizadas
 
 - **.NET 9.0**
+- **ASP.NET Core MVC**
 - **C#**
+- **Razor** (motor de vistas)
 - **SQL Server** (opcional)
 - **SQLite** (opcional, alternativa ligera)
 - **ADO.NET** (acceso a datos)
@@ -57,8 +64,8 @@ pokedex-net9/
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/niconk97/pokedex-net9.git
-cd pokedex-net9
+git clone https://github.com/niconk97/pokedex-net9-mvc.git
+cd pokedex-net9-mvc
 ```
 
 ### 2. Restaurar dependencias
@@ -106,21 +113,36 @@ dotnet restore
 dotnet build
 ```
 
+### 5. Ejecutar la aplicación web
+
+```bash
+cd Pokedex.Web
+dotnet run
+```
+
+La aplicación estará disponible en `https://localhost:5001` o `http://localhost:5000`
+
 ## 🎯 Uso
 
-Este proyecto sirve como base para desarrollar aplicaciones de gestión de Pokémon. Puedes:
+Este proyecto implementa una aplicación web completa de gestión de Pokémon con ASP.NET Core MVC. Incluye:
 
-- Extender las capas de dominio y negocio
-- Agregar nuevas entidades
-- Implementar interfaces de usuario (Console, Web, Desktop)
-- Practicar conceptos de arquitectura en capas
+- CRUD completo de Pokémon
+- Gestión de elementos/tipos
+- Interfaz web con Bootstrap
+- Arquitectura en capas (Dominio, Negocio, Presentación)
+- Patrón MVC
 
 ## 📚 Créditos
 
-Proyecto original desarrollado por **MaxiPrograma** para sus cursos de C# y .NET.
-
+### Proyecto Original
+Desarrollado por **MaxiPrograma** para sus cursos de C# y .NET.
+- Repositorio: [PokedexWeb](https://github.com/maxiprograma/PokedexWeb)
 - Cursos: [MaxiPrograma](https://www.maxiprograma.com/)
 - YouTube: [MaxiPrograma en YouTube](https://www.youtube.com/@MaxiPrograma)
+
+### Adaptación Base .NET 9
+Adaptación simplificada a .NET 9 y VS Code por **@niconk97**
+- Repositorio: [pokedex-net9](https://github.com/niconk97/pokedex-net9)
 
 ## 📄 Licencia
 
