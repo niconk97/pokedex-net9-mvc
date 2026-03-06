@@ -35,14 +35,20 @@ namespace Pokedex.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Numero,Nombre,Descripcion")] object pokemon)
+        public IActionResult Create(Pokemon pokemon)
         {
-            if (ModelState.IsValid)
+            try
             {
-                // TODO: Add insert logic here
+                PokemonNegocio negocio = new PokemonNegocio();
+                pokemon.Tipo = new Elemento { Id = 1 }; // TODO: agregar el tipo basado en la entrada del usuario
+                pokemon.Debilidad = new Elemento { Id = 1 }; // TODO: agregar la debilidad basada en la entrada del usuario
+                negocio.agregarSQLITE(pokemon);
                 return RedirectToAction(nameof(Index));
             }
-            return View(pokemon);
+            catch
+            {
+                return View(pokemon);
+            }
         }
 
         // GET: Pokemon/Edit/5
