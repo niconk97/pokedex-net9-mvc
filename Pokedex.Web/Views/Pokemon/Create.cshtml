@@ -11,7 +11,8 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
-            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> me permite hacer validaciones del modelo *@
+            @* <div asp-validation-summary="All" class="text-danger"></div> me permite hacer validaciones generales*@
             
             <div class="form-group">
                 <label asp-for="Numero" class="control-label"></label>
@@ -37,17 +38,17 @@
                 <span asp-validation-for="UrlImagen" class="text-danger"></span>
             </div>
             
-            @* <div class="form-group">
+            <div class="form-group">
                 <label asp-for="Tipo" class="control-label">Tipo</label>
-                <select asp-for="Tipo.Id" class="form-control" asp-items="ViewBag.TipoId"></select>
+                <select asp-for="Tipo.Id" class="form-control" asp-items="ViewBag.Elementos"></select>
                 <span asp-validation-for="Tipo.Id" class="text-danger"></span>
             </div>
             
             <div class="form-group">
                 <label asp-for="Debilidad" class="control-label">Debilidad</label>
-                <select asp-for="Debilidad.Id" class="form-control" asp-items="ViewBag.DebilidadId"></select>
+                <select asp-for="Debilidad.Id" class="form-control" asp-items="ViewBag.Elementos"></select>
                 <span asp-validation-for="Debilidad.Id" class="text-danger"></span>
-            </div> *@
+            </div>
             
             @* <div class="form-group form-check">
                 <label class="form-check-label">

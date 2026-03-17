@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Pokedex.Dominio;
 using Pokedex.Negocio;
 
@@ -27,6 +28,8 @@ namespace Pokedex.Web.Controllers
         // GET: Pokemon/Create
         public IActionResult Create()
         {
+            ElementoNegocio negocioElemento = new ElementoNegocio();
+            ViewBag.Elementos = new SelectList(negocioElemento.listarSQLITE(), "Id", "Descripcion");
             return View();
         }
 
@@ -39,6 +42,10 @@ namespace Pokedex.Web.Controllers
         {
             try
             {
+                if(!ModelState.IsValid)
+                {
+                    return View(pokemon); // si hubo algun error de validacion, se vuelve a mostrar el formulario con los datos ingresados
+                }
                 PokemonNegocio negocio = new PokemonNegocio();
                 pokemon.Tipo = new Elemento { Id = 1 }; // TODO: agregar el tipo basado en la entrada del usuario
                 pokemon.Debilidad = new Elemento { Id = 1 }; // TODO: agregar la debilidad basada en la entrada del usuario
