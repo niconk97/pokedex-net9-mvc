@@ -61,32 +61,32 @@ namespace Pokedex.Web.Controllers
         // GET: Pokemon/Edit/5
         public IActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            return View();
+            ElementoNegocio negocioElemento = new ElementoNegocio();
+            PokemonNegocio negocioPokemon = new PokemonNegocio();
+            var pokemon = negocioPokemon.listarSQLITE().Find(p => p.Id == id); // esto me permite obtener el pokemon a editar basado en el id
+            var lista = negocioElemento.listarSQLITE();
+            // esto me permite cargar el dropdown de tipos y debilidades con la lista de elementos y seleccionar el tipo y debilidad actual del pokemon
+            ViewBag.Tipos = new SelectList(lista, "Id", "Descripcion", pokemon.Tipo.Id); 
+            ViewBag.Debilidades = new SelectList(lista, "Id", "Descripcion", pokemon.Debilidad.Id);
+            return View(pokemon);
         }
 
         // POST: Pokemon/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Numero,Nombre,Descripcion")] object pokemon)
+        public IActionResult Edit(int id, Pokemon pokemon)
         {
-            if (id != 0) // TODO: Replace with actual id comparison
+            try
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                // TODO: Add update logic here
+                PokemonNegocio negocio = new PokemonNegocio();
+                negocio.modificarSQLITE(pokemon);
                 return RedirectToAction(nameof(Index));
             }
-            return View(pokemon);
+            catch
+            {
+                return View(pokemon);
+            }
         }
 
         // GET: Pokemon/Delete/5
