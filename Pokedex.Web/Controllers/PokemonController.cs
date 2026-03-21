@@ -47,13 +47,11 @@ namespace Pokedex.Web.Controllers
                     return View(pokemon); // si hubo algun error de validacion, se vuelve a mostrar el formulario con los datos ingresados
                 }
                 PokemonNegocio negocio = new PokemonNegocio();
-                pokemon.Tipo = new Elemento { Id = 1 }; // TODO: agregar el tipo basado en la entrada del usuario
-                pokemon.Debilidad = new Elemento { Id = 1 }; // TODO: agregar la debilidad basada en la entrada del usuario
                 negocio.agregarSQLITE(pokemon);
                 return RedirectToAction(nameof(Index));
             }
             catch
-            {
+            {   
                 return View(pokemon);
             }
         }
@@ -92,21 +90,27 @@ namespace Pokedex.Web.Controllers
         // GET: Pokemon/Delete/5
         public IActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            return View();
+            PokemonNegocio negocioPokemon = new PokemonNegocio();
+            var pokemon = negocioPokemon.listarSQLITE().Find(p => p.Id == id);
+            return View(pokemon);
         }
 
         // POST: Pokemon/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult Delete(int id)
         {
-            // TODO: Add delete logic here
-            return RedirectToAction(nameof(Index));
+            try
+            {   
+                PokemonNegocio negocio = new PokemonNegocio();
+                negocio.eliminarSQLITE(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+            
         }
     }
 }
