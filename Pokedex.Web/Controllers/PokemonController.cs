@@ -22,7 +22,9 @@ namespace Pokedex.Web.Controllers
                 return NotFound();
             }
 
-            return View();
+            PokemonNegocio negocioPokemon = new PokemonNegocio();
+            var pokemon = negocioPokemon.listarSQLITE().Find(p => p.Id == id);
+            return View(pokemon);
         }
 
         // GET: Pokemon/Create
