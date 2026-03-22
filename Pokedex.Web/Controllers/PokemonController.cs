@@ -8,10 +8,19 @@ namespace Pokedex.Web.Controllers
     public class PokemonController : Controller
     {
         // GET: Pokemon
-        public IActionResult Index()
+        public IActionResult Index(string filtro)
         {
             PokemonNegocio negocio = new PokemonNegocio();
-            return View(negocio.listarSQLITE());
+            var pokemons = negocio.listarSQLITE();
+
+            if (!string.IsNullOrEmpty(filtro))
+            {
+                // Si se proporciona un filtro, se filtran los pokemons por nombre (ignorando mayúsculas/minúsculas)
+                // StringComparison.OrdinalIgnoreCase permite comparar cadenas sin importar mayúsculas o minúsculas
+                pokemons = pokemons.FindAll(p => p.Nombre.Contains(filtro, StringComparison.OrdinalIgnoreCase));
+            }
+            ViewBag.Filtro = filtro; // Esto permite mantener el valor del filtro en la vista después de realizar la búsqueda
+            return View(pokemons);
         }
 
         // GET: Pokemon/Details/5
